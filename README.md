@@ -4,6 +4,8 @@ COD is a simple SSH CLI utility. It assists in saving SSH connection settings to
 
 Additionally, it understands how to connect to AWS and other cloud-hosted servers by name so those don't have to be setup individually. This is especially helpful for things like AWS EMR job clusters where the instances are created on the fly and all you have handy is a cluster ID.
 
+It requires Python 3.7+.
+
 ## Setup
 
 Clone the repository from GitHub:
