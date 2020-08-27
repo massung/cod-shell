@@ -9,7 +9,7 @@ from cod.tunnel import Tunnel
 
 class Config:
     """
-    Loads the "~/hss.ini" configuration file into memory. It is an INI file
+    Loads the "~/cod.ini" configuration file into memory. It is an INI file
     with the following sections:
 
     # global settings here

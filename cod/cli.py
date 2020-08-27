@@ -17,23 +17,21 @@ def cli():
 
 @click.command(name='add')
 @click.argument('name')
-@click.argument('host')
-@click.option('--login', '-l', help='connect with username')
-@click.option('--port', '-p', default=22, type=int, help='ssh port')
-@click.option('--identity', '-i', help='locate private key')
-@click.option('--agent-forwarding', '-T', is_flag=True, help='enable agent forwarding')
 @click.pass_obj
-def cli_add(config, name, host, port, login, identity, agent_forwarding):
-    if identity:
-        assert locate_private_key(config, identity), f'Failed to locate private key "{identity}"'
+def cli_add(config, name):
+    host = input(prompt='host: ')
+    port = input(prompt='port [22]: ')
+    login = input(prompt='login [none]: ')
+    identity = input(prompt='key [none]: ')
+    agent_forwarding = input(prompt='agent forwarding [false]: ')
 
     # create the instance
     instance = BaseInstance(
         host=host,
-        port=port,
-        login=login,
-        identity=identity,
-        agent_forwarding=agent_forwarding,
+        port=int(port),
+        login=login if login else None,
+        identity=identity if identity else None,
+        agent_forwarding=bool(agent_forwarding),
     )
 
     # add the instance to the configuration and save
@@ -58,10 +56,10 @@ def cli_rm(config, name):
 @click.command(name='sh')
 @click.argument('name')
 @click.argument('command', nargs=-1)
-@click.option('--aws', is_flag=True, help='host is an AWS EC2 instance or EMR cluster')
-@click.option('--login', '-l', help='username to log into instance with')
-@click.option('--port', '-p', type=int, help='ssh port')
-@click.option('--identity', '-i', help='requires private key')
+@click.option('--aws', is_flag=True, help='host is an AWS EC2 or EMR cluster name')
+@click.option('--login', '-l', help='username override')
+@click.option('--port', '-p', type=int, help='port override')
+@click.option('--identity', '-i', help='key override')
 @click.pass_obj
 def cli_sh(config, name, command, aws, login, port, identity):
     i = AWSInstance(config, name) if aws else config.instance(name)
