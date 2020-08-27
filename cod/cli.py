@@ -19,16 +19,16 @@ def cli():
 @click.argument('name')
 @click.pass_obj
 def cli_add(config, name):
-    host = input(prompt='host: ')
-    port = input(prompt='port [22]: ')
-    login = input(prompt='login [none]: ')
-    identity = input(prompt='key [none]: ')
-    agent_forwarding = input(prompt='agent forwarding [false]: ')
+    host = input('host: ')
+    port = input('port [22]: ')
+    login = input('login [none]: ')
+    identity = input('key [none]: ')
+    agent_forwarding = input('agent forwarding [false]: ')
 
     # create the instance
     instance = BaseInstance(
         host=host,
-        port=int(port),
+        port=int(port) if port else 22,
         login=login if login else None,
         identity=identity if identity else None,
         agent_forwarding=bool(agent_forwarding),
